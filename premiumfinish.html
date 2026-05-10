@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Finish Auto Detailing</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       STEP 1 — CSS VARIABLES
+       Change colors here and they update everywhere on the site.
+    ============================================================ */
+    :root {
+      --black:  #080808;
+      --deep:   #0f0f0f;
+      --card:   #161616;
+      --red:    #d93025;
+      --orange: #e8621a;
+      --white:  #f2f2f2;
+      --muted:  #6a6a6a;
+      --border: #222222;
+    }
+
+    /* ============================================================
+       STEP 2 — RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       STEP 3 — NAVIGATION BAR
+    ============================================================ */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 68px;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── LOGO ──
+       The nav shows your logo image (logo.png).
+       Put logo.png in the same folder as this HTML file.
+       The image is capped at 48px tall so it fits the nav bar.
+       If the file is missing it gracefully falls back to text. */
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 48px; width: auto; display: block; }
+    .logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; }
+    .logo-text em { color: var(--red); font-style: normal; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-book {
+      font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 1rem;
+      background: var(--red); color: white; border: none;
+      padding: 0.6rem 1.8rem; cursor: pointer; transition: background 0.2s;
+    }
+    .nav-book:hover { background: var(--orange); }
+
+    /* ============================================================
+       STEP 4 — HERO SECTION
+    ============================================================ */
+    .hero {
+      min-height: 100vh; position: relative;
+      display: grid;
+      /* two columns: left = text content, right = logo */
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      padding: 68px 3rem 5rem;
+      overflow: hidden;
+      gap: 0 4rem;
+    }
+
+    /* the left column holds all the text */
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-bottom: 0;
+    }
+
+    /* the right column holds the logo image, centered vertically */
+    .hero-right {
+      display: flex; align-items: center; justify-content: center;
+      padding-bottom: 5rem;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    /*
+      HERO LOGO — put logo.png in the same folder as this HTML.
+      Adjust max-width to make it bigger or smaller.
+    */
+    .hero-logo-img {
+      width: clamp(200px, 28vw, 420px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 0 40px rgba(217,48,37,0.15));
+      /* hide on mobile — shown above text instead */
+    }
+
+    /* mobile logo shown above the h1 on small screens */
+    .hero-logo-mobile {
+      display: none;
+      width: 160px; height: auto;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        linear-gradient(135deg, rgba(217,48,37,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 30%, rgba(232,98,26,0.05), transparent 60%);
+    }
+
+    /* diagonal accent lines */
+    .hero::before {
+      content: ''; position: absolute; z-index: 0;
+      top: -100px; right: -60px;
+      width: 3px; height: 120vh;
+      background: linear-gradient(to bottom, transparent, var(--red) 40%, var(--orange) 60%, transparent);
+      transform: rotate(15deg); opacity: 0.4;
+    }
+    .hero::after {
+      content: ''; position: absolute; z-index: 0;
+      top: -100px; right: 40px;
+      width: 1px; height: 120vh;
+      background: linear-gradient(to bottom, transparent, rgba(217,48,37,0.3) 40%, transparent);
+      transform: rotate(15deg);
+    }
+
+    /* make sure content sits above pseudo-elements */
+    .hero-left, .hero-right { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--red); margin-bottom: 1.2rem;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 13vw, 11rem);
+      line-height: 0.88; letter-spacing: 3px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 .line2 { color: var(--red); display: block; }
+
+    .hero-sub {
+      font-size: 1rem; color: var(--muted); font-style: italic;
+      margin: 1.8rem 0 2.5rem; max-width: 420px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-ctas { display: flex; gap: 1rem; animation: fadeUp 0.7s 0.3s ease both; }
+
+    .btn-red {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 2px;
+      background: var(--red); color: white; border: none;
+      padding: 0.9rem 2.4rem; cursor: pointer; transition: background 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-red:hover { background: var(--orange); }
+
+    .btn-ghost {
+      font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      padding: 0.9rem 2rem; cursor: pointer; transition: all 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--muted); color: var(--white); }
+
+    /* phone number — now inside hero-left, below the buttons */
+    .hero-phone {
+      margin-top: 2.5rem;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+    .hero-phone .ph-label { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+    .hero-phone .ph-num  { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; right: 3rem; z-index: 1;
+      font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-scroll::before { content: ''; display: block; width: 40px; height: 1px; background: var(--border); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       STEP 5 — SHARED LAYOUT HELPERS
+    ============================================================ */
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+    section { padding: 7rem 0; }
+
+    .red-bar { height: 3px; background: linear-gradient(90deg, var(--red), var(--orange), var(--red)); }
+    .divider  { height: 1px; background: var(--border); }
+
+    .s-label {
+      font-size: 0.68rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--red); margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .s-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 80px; }
+
+    .s-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: 2px; margin-bottom: 3.5rem;
+    }
+
+    /* scroll-reveal — JS adds .on when element enters view */
+    .r { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .r.on { opacity: 1; transform: none; }
+    .r2 { transition-delay: 0.12s; }
+    .r3 { transition-delay: 0.24s; }
+
+    /* ============================================================
+       STEP 6 — SERVICES SECTION
+    ============================================================ */
+    #services { background: var(--deep); }
+
+    .services-wrap {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border); margin-bottom: 1px;
+    }
+
+    .svc {
+      background: var(--card); padding: 2.5rem 2rem;
+      position: relative; overflow: hidden; transition: background 0.3s;
+    }
+    .svc:hover { background: #1c1c1c; }
+
+    .svc-accent {
+      position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--orange));
+      transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+    }
+    .svc:hover .svc-accent { transform: scaleX(1); }
+
+    .svc-num  { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--border); line-height: 1; margin-bottom: 1rem; }
+    .svc-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; letter-spacing: 2px; margin-bottom: 0.3rem; }
+    .svc-price { color: var(--red); font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; margin-bottom: 1.5rem; }
+
+    .svc-list { list-style: none; }
+    .svc-list li {
+      font-size: 0.82rem; color: var(--muted);
+      padding: 0.45rem 0; border-bottom: 1px solid var(--border);
+      display: flex; gap: 0.6rem;
+    }
+    .svc-list li:last-child { border-bottom: none; }
+    .svc-list li::before { content: '›'; color: var(--red); font-size: 1rem; }
+
+    .addons-bar {
+      background: var(--card); padding: 2rem;
+      display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;
+    }
+    .addons-bar-label {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+      letter-spacing: 2px; color: var(--muted); white-space: nowrap;
+    }
+    .addon-pill {
+      border: 1px solid var(--border); padding: 0.4rem 1rem;
+      font-size: 0.78rem; color: var(--muted);
+      display: flex; gap: 0.4rem; align-items: center;
+    }
+    .addon-pill strong { color: var(--red); }
+
+    /* ============================================================
+       STEP 7 — GALLERY (BEFORE & AFTER)
+
+       TO ADD YOUR PHOTOS:
+         1. Put your image files in the same folder as this HTML.
+         2. Replace  src="BEFORE-1.jpg"  with your actual filename.
+         3. Do the same for the After photo.
+         4. Copy a full "pair" block to add more pairs.
+    ============================================================ */
+    #gallery { background: var(--black); }
+
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px;
+    }
+
+    .pair { position: relative; overflow: hidden; background: var(--card); }
+
+    .pair-images { display: grid; grid-template-columns: 1fr 1fr; height: 380px; }
+
+    .pair-slot { position: relative; overflow: hidden; background: #111; }
+    .pair-slot img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .pair:hover .pair-slot img { transform: scale(1.04); }
+
+    .slot-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0.45rem; text-align: center;
+      font-size: 0.64rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+    }
+    .slot-label.before { background: rgba(0,0,0,0.78); color: var(--muted); }
+    .slot-label.after  { background: rgba(217,48,37,0.88); color: white; }
+
+    /* thin divider line between before/after */
+    .pair-divider {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 2px; height: 100%; background: var(--black); z-index: 2;
+    }
+
+    /* placeholder when image file is not found */
+    .pair-slot.empty {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem;
+      border: 1px dashed #2a2a2a;
+    }
+    .pair-slot.empty .ph-icon { font-size: 2.2rem; opacity: 0.2; }
+    .pair-slot.empty .ph-text { font-size: 0.6rem; letter-spacing: 1px; color: #333; text-transform: uppercase; }
+
+    /* ============================================================
+       STEP 8 — SERVICE SELECTOR (above Calendly)
+       Customer picks a service first, then the Calendly widget
+       appears below so they can pick a date/time.
+    ============================================================ */
+    .svc-selector {
+      margin-bottom: 2rem;
+    }
+    .svc-selector-label {
+      font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.8rem; display: block;
+    }
+    .svc-selector-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .svc-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--muted); padding: 0.75rem 1rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+      text-align: left; cursor: pointer; transition: all 0.2s;
+      line-height: 1.3;
+    }
+    .svc-btn:hover { border-color: var(--muted); color: var(--white); }
+    .svc-btn.active {
+      border-color: var(--red); background: rgba(217,48,37,0.1);
+      color: var(--white);
+    }
+    .svc-btn .svc-btn-price {
+      display: block; color: var(--red); font-size: 0.72rem;
+      font-weight: 600; margin-top: 0.2rem;
+    }
+
+    /* prompt shown before a service is selected */
+    .cal-prompt {
+      border: 1px dashed var(--border);
+      padding: 3rem 2rem; text-align: center; color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .cal-prompt .prompt-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+
+    /* ============================================================
+       STEP 9 — BOOKING SECTION (Calendly)
+    ============================================================ */
+    #booking { background: var(--deep); }
+
+    .calendly-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .cal-info p {
+      font-size: 0.9rem; color: var(--muted);
+      line-height: 1.8; margin-bottom: 2rem;
+    }
+
+    .big-phone {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem; letter-spacing: 3px; margin-bottom: 0.3rem;
+    }
+
+    .ph-sub {
+      font-size: 0.7rem; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    .cal-steps { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+
+    .cal-step {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.85rem; color: var(--muted);
+    }
+
+    .step-num {
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: var(--card); border: 1px solid var(--red);
+      color: var(--red); font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem; letter-spacing: 1px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .cal-embed-wrap { border: 1px solid var(--border); overflow: hidden; }
+
+    /* ============================================================
+       STEP 10 — FOOTER
+    ============================================================ */
+    footer {
+      background: var(--black); border-top: 1px solid var(--border);
+      padding: 3rem; text-align: center;
+    }
+    footer .f-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 4px; }
+    footer .f-logo em { color: var(--red); font-style: normal; }
+    footer .f-sub { font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+    footer .f-phone { color: var(--red); font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
+    footer .f-copy  { color: var(--border); font-size: 0.72rem; margin-top: 2rem; }
+
+    /* ============================================================
+       STEP 11 — RESPONSIVE (mobile)
+    ============================================================ */
+    @media (max-width: 900px) {
+      .calendly-layout { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    @media (max-width: 760px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+      .wrap  { padding: 0 1.5rem; }
+
+      /* hero becomes single column, logo goes above h1 */
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 80px 1.5rem 4rem;
+        align-items: start;
+      }
+      .hero-right  { display: none; }         /* hide right-side logo */
+      .hero-logo-mobile { display: block; }   /* show mobile logo above h1 */
+      .hero-phone  { margin-top: 1.5rem; }
+
+      .services-wrap { grid-template-columns: 1fr; }
+      .gallery-grid  { grid-template-columns: 1fr; }
+      .svc-selector-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav>
+    <!-- ============================================================
+         LOGO — replace logo.png with your actual logo file.
+         Put the file in the same folder as this HTML.
+         The onerror swaps in text if the image can't be found.
+    ============================================================ -->
+    <div class="logo">
+      <img src="logo.png" alt="Premium Finish Auto Detailing"
+           onerror="this.style.display='none'; document.getElementById('logoText').style.display='block'">
+      <div class="logo-text" id="logoText" style="display:none"><em>PREMIUM</em> FINISH</div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#booking">Book</a></li>
+    </ul>
+    <button class="nav-book"
+      onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
+      BOOK NOW
+    </button>
+  </nav>
+
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+
+    <!-- LEFT column: all text content -->
+    <div class="hero-left">
+
+      <!--
+        MOBILE LOGO — shown above "PREMIUM FINISH" on phones.
+        Replace logo.png with your actual logo file.
+        Put the file in the same folder as this HTML.
+      -->
+      <img class="hero-logo-mobile" src="logo.png" alt="Premium Finish Auto Detailing"
+           onerror="this.style.opacity='0'">
+
+      <div class="hero-eyebrow">Mobile Auto Detailing · We Come To You</div>
+      <h1>PREMIUM<span class="line2">FINISH</span></h1>
+      <p class="hero-sub">Your house. Your work. Your apartment. We bring the detail shop to you.</p>
+      <div class="hero-ctas">
+        <a href="#booking" class="btn-red">Book Appointment</a>
+        <a href="#services" class="btn-ghost">See Services</a>
+      </div>
+      <div class="hero-phone">
+        <div class="ph-label">Call or Text</div>
+        <div class="ph-num">315-641-9988</div>
+      </div>
+    </div>
+
+    <!-- RIGHT column: large logo fills the empty space on desktop -->
+    <div class="hero-right">
+      <!--
+        DESKTOP LOGO — shown to the right of "PREMIUM FINISH" on desktop.
+        Same file as the mobile logo above (logo.png).
+        Adjust .hero-logo-img max-width in the CSS to resize it.
+      -->
+      <img class="hero-logo-img" src="logo.png" alt="Premium Finish Auto Detailing"
+           onerror="this.style.opacity='0'">
+    </div>
+
+    <div class="hero-scroll">Scroll</div>
+  </div>
+
+  <div class="red-bar"></div>
+
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section id="services">
+    <div class="wrap">
+      <div class="s-label r">Our Services</div>
+      <h2 class="s-title r">WHAT WE DO</h2>
+
+      <div class="services-wrap r">
+        <div class="svc">
+          <div class="svc-accent"></div>
+          <div class="svc-num">01</div>
+          <div class="svc-name">Exterior Wash</div>
+          <div class="svc-price">Sedan from $60 · SUV/Truck from $70</div>
+          <ul class="svc-list">
+            <li>Deep hand wash &amp; foam bath</li>
+            <li>All grime &amp; bugs removed</li>
+            <li>Exterior windows streak-free</li>
+            <li>Rims &amp; wheels cleaned and shined</li>
+            <li>Trim shined</li>
+          </ul>
+        </div>
+
+        <div class="svc">
+          <div class="svc-accent"></div>
+          <div class="svc-num">02</div>
+          <div class="svc-name">Interior Detail</div>
+          <div class="svc-price">Sedan from $100 · SUV/Truck from $120</div>
+          <ul class="svc-list">
+            <li>Full vacuum — carpets, cracks, crevices</li>
+            <li>Complete wipe down of all surfaces</li>
+            <li>Floor mats dressed</li>
+            <li>Interior windows streak-free</li>
+            <li>Door jabs cleaned</li>
+          </ul>
+        </div>
+
+        <div class="svc">
+          <div class="svc-accent"></div>
+          <div class="svc-num">03</div>
+          <div class="svc-name">Full Package</div>
+          <div class="svc-price">Sedan from $140 · SUV/Truck from $160</div>
+          <ul class="svc-list">
+            <li>Everything in Exterior Wash</li>
+            <li>Everything in Interior Detail</li>
+            <li>Best value — full transformation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="addons-bar r r2">
+        <div class="addons-bar-label">Add-Ons →</div>
+        <div class="addon-pill">Pet Hair Removal <strong>+$50</strong></div>
+        <div class="addon-pill">Clay Bar / Paint Decon <strong>+$50</strong></div>
+        <div class="addon-pill">Protective Wax Sealant <strong>+$20</strong></div>
+        <div class="addon-pill">Headlight Restoration <strong>+$75</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+
+  <!-- ============================================================
+       BEFORE & AFTER GALLERY
+
+       HOW TO ADD YOUR PHOTOS:
+       1. Save your image files in the SAME FOLDER as this HTML.
+       2. Replace  src="BEFORE-1.jpg"  with your actual filename.
+          Example: src="honda-before.jpg"
+       3. Do the same for the After slot.
+       4. To add more pairs, copy one entire pair block and paste it.
+  ============================================================ -->
+  <section id="gallery">
+    <div class="wrap">
+      <div class="s-label r">Our Work</div>
+      <h2 class="s-title r">BEFORE &amp; AFTER</h2>
+
+      <div class="gallery-grid r">
+
+        <!-- PAIR 1 -->
+        <div class="pair">
+          <div class="pair-images">
+            <div class="pair-slot" id="b1">
+              <img src="BEFORE-1.jpg" alt="Before"
+                onerror="markEmpty('b1','Before')">
+              <div class="slot-label before">Before</div>
+            </div>
+            <div class="pair-slot" id="a1">
+              <img src="AFTER-1.jpg" alt="After"
+                onerror="markEmpty('a1','After')">
+              <div class="slot-label after">After</div>
+            </div>
+          </div>
+          <div class="pair-divider"></div>
+        </div>
+
+        <!-- PAIR 2 -->
+        <div class="pair">
+          <div class="pair-images">
+            <div class="pair-slot" id="b2">
+              <img src="BEFORE-2.jpg" alt="Before"
+                onerror="markEmpty('b2','Before')">
+              <div class="slot-label before">Before</div>
+            </div>
+            <div class="pair-slot" id="a2">
+              <img src="AFTER-2.jpg" alt="After"
+                onerror="markEmpty('a2','After')">
+              <div class="slot-label after">After</div>
+            </div>
+          </div>
+          <div class="pair-divider"></div>
+        </div>
+
+        <!-- PAIR 3 -->
+        <div class="pair">
+          <div class="pair-images">
+            <div class="pair-slot" id="b3">
+              <img src="BEFORE-3.jpg" alt="Before"
+                onerror="markEmpty('b3','Before')">
+              <div class="slot-label before">Before</div>
+            </div>
+            <div class="pair-slot" id="a3">
+              <img src="AFTER-3.jpg" alt="After"
+                onerror="markEmpty('a3','After')">
+              <div class="slot-label after">After</div>
+            </div>
+          </div>
+          <div class="pair-divider"></div>
+        </div>
+
+        <!-- PAIR 4 -->
+        <div class="pair">
+          <div class="pair-images">
+            <div class="pair-slot" id="b4">
+              <img src="BEFORE-4.jpg" alt="Before"
+                onerror="markEmpty('b4','Before')">
+              <div class="slot-label before">Before</div>
+            </div>
+            <div class="pair-slot" id="a4">
+              <img src="AFTER-4.jpg" alt="After"
+                onerror="markEmpty('a4','After')">
+              <div class="slot-label after">After</div>
+            </div>
+          </div>
+          <div class="pair-divider"></div>
+        </div>
+
+      </div><!-- /gallery-grid -->
+    </div>
+  </section>
+
+  <div class="red-bar"></div>
+
+
+  <!-- ============================================================
+       BOOKING — powered by Calendly
+
+       SETUP (only you need to do this, ~5 minutes):
+
+       STEP 1 — Sign up at https://calendly.com (free)
+
+       STEP 2 — Connect your Google/Apple calendar so Calendly
+                 knows when you're busy and blocks those times.
+
+       STEP 3 — Create an Event Type: "New Event Type" → One-on-One
+                 Name: "Auto Detail Appointment"
+                 Duration: 5 hours
+                 Location: "We come to you — you'll provide your address"
+
+       STEP 4 — Set your working hours under Availability.
+
+       STEP 5 — Under "Invitee Questions" add:
+                 · "Your address / location?" (required)
+                 · "Any notes or vehicle details?"
+
+       STEP 6 — Copy your event link (looks like:
+                 https://calendly.com/yourname/auto-detail)
+                 and paste it below where it says YOUR-CALENDLY-LINK.
+
+       STEP 7 — Download the Calendly app (App Store / Google Play).
+                 You'll get push notifications for every booking,
+                 cancellation, and reschedule. Manage everything there.
+  ============================================================ -->
+  <section id="booking">
+    <div class="wrap">
+      <div class="s-label r">Book Now</div>
+      <h2 class="s-title r">SCHEDULE YOUR DETAIL</h2>
+
+      <div class="calendly-layout">
+
+        <!-- LEFT: info + steps -->
+        <div class="cal-info r">
+          <p>Pick your service below, then choose a date and time. We come directly to your location — no drop-off needed.</p>
+          <div class="ph-sub">Call or Text</div>
+          <div class="big-phone">315-641-9988</div>
+
+          <div class="cal-steps">
+            <div class="cal-step"><span class="step-num">1</span><span>Select your service below</span></div>
+            <div class="cal-step"><span class="step-num">2</span><span>Pick a date &amp; time</span></div>
+            <div class="cal-step"><span class="step-num">3</span><span>Enter your name, phone &amp; address</span></div>
+            <div class="cal-step"><span class="step-num">4</span><span>Get an instant confirmation email</span></div>
+          </div>
+        </div>
+
+        <!-- RIGHT: service selector + Calendly widget -->
+        <div class="r r2">
+
+          <!-- SERVICE SELECTOR
+               Customer picks a service. The selected service name is
+               passed to Calendly as a pre-filled note so you see it
+               in your notification email and Calendly app.
+               The buttons are purely visual — the Calendly widget
+               handles the actual booking.
+          -->
+          <div class="svc-selector">
+            <span class="svc-selector-label">Step 1 — Choose your service</span>
+            <div class="svc-selector-grid">
+              <button class="svc-btn" onclick="selectService(this, 'Exterior Wash — Sedan ($60+)')">
+                Exterior Wash — Sedan
+                <span class="svc-btn-price">from $60</span>
+              </button>
+              <button class="svc-btn" onclick="selectService(this, 'Exterior Wash — SUV/Truck ($70+)')">
+                Exterior Wash — SUV/Truck
+                <span class="svc-btn-price">from $70</span>
+              </button>
+              <button class="svc-btn" onclick="selectService(this, 'Interior Detail — Sedan ($100+)')">
+                Interior Detail — Sedan
+                <span class="svc-btn-price">from $100</span>
+              </button>
+              <button class="svc-btn" onclick="selectService(this, 'Interior Detail — SUV/Truck ($120+)')">
+                Interior Detail — SUV/Truck
+                <span class="svc-btn-price">from $120</span>
+              </button>
+              <button class="svc-btn" onclick="selectService(this, 'Full Package — Sedan ($140+)')">
+                Full Package — Sedan
+                <span class="svc-btn-price">from $140</span>
+              </button>
+              <button class="svc-btn" onclick="selectService(this, 'Full Package — SUV/Truck ($160+)')">
+                Full Package — SUV/Truck
+                <span class="svc-btn-price">from $160</span>
+              </button>
+            </div>
+
+            <!-- ADD-ONS row -->
+            <div class="svc-selector-grid" style="margin-top:0.5rem;">
+              <button class="svc-btn" onclick="toggleAddon(this, 'Pet Hair Removal (+$50)')">
+                + Pet Hair Removal
+                <span class="svc-btn-price">+$50</span>
+              </button>
+              <button class="svc-btn" onclick="toggleAddon(this, 'Clay Bar / Paint Decon (+$50)')">
+                + Clay Bar / Paint Decon
+                <span class="svc-btn-price">+$50</span>
+              </button>
+              <button class="svc-btn" onclick="toggleAddon(this, 'Protective Wax Sealant (+$20)')">
+                + Protective Wax Sealant
+                <span class="svc-btn-price">+$20</span>
+              </button>
+              <button class="svc-btn" onclick="toggleAddon(this, 'Headlight Restoration (+$75)')">
+                + Headlight Restoration
+                <span class="svc-btn-price">+$75</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Calendly widget — hidden until a service is chosen -->
+          <div id="calPrompt" class="cal-prompt">
+            <div class="prompt-icon">👆</div>
+            Select a service above to see available times
+          </div>
+
+          <div class="cal-embed-wrap" id="calWrap" style="display:none;">
+            <!--
+              The widget is injected here by JS when a service is picked.
+              Replace YOUR-CALENDLY-LINK in the JAVASCRIPT below (CALENDLY_BASE).
+            -->
+            <div id="calendlyContainer" style="min-width:300px; height:700px;"></div>
+          </div>
+
+          <!-- Calendly widget script — loaded once, used by JS below -->
+          <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async
+            onload="window.calendlyReady = true; if(window.pendingCalendlyUrl) renderCalendly(window.pendingCalendlyUrl);">
+          </script>
+
+        </div><!-- /right column -->
+
+      </div><!-- /calendly-layout -->
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="f-logo"><em>PREMIUM</em> FINISH</div>
+    <div class="f-sub">Auto Detailing · Mobile Service</div>
+    <div class="f-phone">📞 315-641-9988</div>
+    <p style="color:var(--muted); font-size:0.82rem;">
+      We come to you — your house, work, or apartment.
+    </p>
+    <div class="f-copy">© 2025 Premium Finish Auto Detailing. All rights reserved.</div>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ----------------------------------------------------------
+       1. SCROLL REVEAL
+       Watches .r elements and fades them up when scrolled into view.
+    ---------------------------------------------------------- */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.r').forEach(el => revealObs.observe(el));
+
+    /* ----------------------------------------------------------
+       2. GALLERY PLACEHOLDER
+       Called by onerror on gallery images when file isn't found.
+       Shows a clean placeholder instead of a broken image icon.
+    ---------------------------------------------------------- */
+    function markEmpty(id, label) {
+      const slot = document.getElementById(id);
+      if (!slot) return;
+      slot.classList.add('empty');
+      const img = slot.querySelector('img');
+      if (img) img.remove();
+      slot.insertAdjacentHTML('beforeend',
+        `<div class="ph-icon">📷</div><div class="ph-text">${label} Photo</div>`
+      );
+    }
+
+    /* ----------------------------------------------------------
+       3. SERVICE SELECTOR + CALENDLY PRE-FILL
+       
+       HOW THE PRE-FILL WORKS:
+       Calendly's ?a1= URL parameter pre-fills the first
+       "Invitee Question" in your event. For this to work you
+       MUST have a question set up in Calendly:
+         Event Type → Edit → Invitee Questions → Add Question
+         Label: "Which service are you booking?"
+         Type: Text  |  Required: Yes
+       
+       Every time a service is picked we FULLY DESTROY the old
+       Calendly iframe and rebuild it with the new URL — this is
+       the only reliable way to get pre-fill to actually show up.
+
+       ⚠️  Replace YOUR-CALENDLY-LINK below with your real URL.
+           Example: https://calendly.com/yourname/auto-detail
+    ---------------------------------------------------------- */
+
+    // ── CHANGE THIS to your real Calendly event URL ──────────
+    const CALENDLY_BASE = 'https://calendly.com/timofes100709/auto-detail-appointment';
+    // ─────────────────────────────────────────────────────────
+
+    let selectedService = '';
+    let selectedAddons  = [];
+
+    /* Build the full Calendly URL including the pre-filled service */
+    function buildCalendlyUrl() {
+      const note = selectedAddons.length
+        ? `${selectedService} | Add-ons: ${selectedAddons.join(', ')}`
+        : selectedService;
+      return (
+        CALENDLY_BASE +
+        '?hide_gdpr_banner=1' +
+        '&background_color=161616' +
+        '&text_color=f2f2f2' +
+        '&primary_color=d93025' +
+        '&a1=' + encodeURIComponent(note)   // ← pre-fills "Which service?" question
+      );
+    }
+
+    /*
+      renderCalendly() — wipes the container and uses the official
+      Calendly.initInlineWidget() call to build a brand-new iframe.
+      This is the only method that guarantees ?a1= is respected.
+    */
+    function renderCalendly(url) {
+      const container = document.getElementById('calendlyContainer');
+
+      // 1. Wipe any existing iframe so we start clean
+      container.innerHTML = '';
+
+      // 2. Use Calendly's own JS API to mount a fresh widget
+      window.Calendly.initInlineWidget({
+        url:      url,
+        parentElement: container,
+        prefill:  {},   // we use URL params instead of the prefill object
+        utm:      {}
+      });
+    }
+
+    /* Show the widget section and render (or re-render) Calendly */
+    function showCalendly() {
+      if (!selectedService) return;
+
+      const url   = buildCalendlyUrl();
+      const prompt = document.getElementById('calPrompt');
+      const wrap   = document.getElementById('calWrap');
+
+      prompt.style.display = 'none';
+      wrap.style.display   = 'block';
+
+      if (window.calendlyReady) {
+        // Calendly script already loaded — render immediately
+        renderCalendly(url);
+      } else {
+        // Script still loading — store URL so the onload callback picks it up
+        window.pendingCalendlyUrl = url;
+      }
+
+      // scroll the widget into view after a short delay
+      setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+    }
+
+    /* Called when a main service button is clicked */
+    function selectService(btn, serviceName) {
+      // clear active state from all service buttons
+      document.querySelectorAll('.svc-selector-grid:first-of-type .svc-btn')
+              .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedService = serviceName;
+      showCalendly();
+    }
+
+    /* Called when an add-on button is toggled */
+    function toggleAddon(btn, addonName) {
+      if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        selectedAddons = selectedAddons.filter(a => a !== addonName);
+      } else {
+        btn.classList.add('active');
+        selectedAddons.push(addonName);
+      }
+      // re-render Calendly with updated add-ons if a service is already chosen
+      if (selectedService) showCalendly();
+    }
+  </script>
+
+</body>
+</html>
